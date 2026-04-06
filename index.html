@@ -3,64 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Реструктуризация системы ролей — Marketica CRM</title>
+<title>Реструктуризация системы ролей и доступа — Marketica CRM</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 30px 40px; background: #fff; }
-  h1 { color: #2c3e50; font-size: 28px; text-align: center; margin-bottom: 30px; border-bottom: 3px solid #2c3e50; padding-bottom: 15px; }
-  h2 { color: #2c3e50; font-size: 22px; margin: 35px 0 15px; padding: 8px 0; border-bottom: 2px solid #2c3e50; page-break-before: always; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #2c3e50; line-height: 1.6; max-width: 1100px; margin: 0 auto; padding: 30px 40px; background: #fff; }
+h1 { color: #2c3e50; font-size: 26px; text-align: center; margin-bottom: 30px; border-bottom: 3px solid #2c3e50; padding-bottom: 15px; }
+h2 { color: #fff; background: #2c3e50; padding: 10px 18px; font-size: 19px; margin: 30px 0 15px 0; border-radius: 4px; page-break-before: always; }
+h2:first-of-type { page-break-before: avoid; }
+h3 { color: #2c3e50; font-size: 16px; margin: 20px 0 8px 0; border-bottom: 1px solid #bdc3c7; padding-bottom: 4px; }
+h4 { color: #34495e; font-size: 14px; margin: 14px 0 6px 0; }
+p, li { font-size: 13px; margin-bottom: 6px; }
+blockquote { background: #f8f9fa; border-left: 4px solid #2c3e50; padding: 10px 14px; margin: 8px 0 14px 0; font-size: 13px; color: #555; }
+
+/* TOC */
+.toc { background: #f8f9fa; border: 1px solid #ddd; border-radius: 4px; padding: 14px 20px; margin-bottom: 20px; }
+.toc-title { font-weight: 700; font-size: 15px; margin-bottom: 8px; color: #2c3e50; }
+.toc ol { padding-left: 22px; }
+.toc li { font-size: 13px; margin-bottom: 3px; }
+.toc a { color: #2980b9; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin: 8px 0 18px 0; font-size: 12.5px; }
+th { background: #2c3e50; color: #fff; padding: 8px 10px; text-align: left; font-weight: 600; font-size: 12px; }
+td { padding: 6px 10px; border: 1px solid #ddd; }
+tr:nth-child(even) { background: #f7f9fb; }
+tr:hover { background: #eaf0f6; }
+tr.deleted { background: #fde8e8 !important; }
+tr.deleted:hover { background: #f9cdcd !important; }
+tr.renamed { background: #dbeafe !important; }
+tr.renamed:hover { background: #c3d9f7 !important; }
+
+/* Org chart */
+pre.orgchart { background: #1e2a38; color: #a8d8a8; padding: 18px 22px; border-radius: 6px; font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 1.5; overflow-x: auto; margin: 10px 0 18px 0; }
+
+/* Appendix table */
+.appendix table { font-size: 10px; }
+.appendix th { font-size: 9.5px; padding: 5px 4px; }
+.appendix td { padding: 4px; text-align: center; }
+.appendix td:first-child { text-align: left; font-weight: 600; }
+.c-full { background: #27ae60; color: #fff; font-weight: 700; }
+.c-dept { background: #3498db; color: #fff; }
+.c-own { background: #f1c40f; color: #333; }
+.c-yes { background: #a8e6a8; color: #1a5c1a; }
+.c-pay { background: #9b59b6; color: #fff; }
+.c-min { background: #e67e22; color: #fff; }
+.c-no { background: #ecf0f1; color: #aaa; }
+
+ul.plain { list-style: disc; padding-left: 22px; }
+strong { font-weight: 600; }
+
+@media print {
+  body { padding: 15px; font-size: 11px; }
+  h2 { page-break-before: always; font-size: 16px; }
   h2:first-of-type { page-break-before: avoid; }
-  h3 { color: #34495e; font-size: 17px; margin: 20px 0 10px; }
-  h4 { color: #4a6785; font-size: 15px; margin: 15px 0 8px; }
-  p { margin: 8px 0; }
-  blockquote { background: #f0f4f8; border-left: 4px solid #2c3e50; padding: 10px 15px; margin: 10px 0; font-style: italic; }
-
-  /* TOC */
-  .toc { background: #f7f9fb; border: 1px solid #d5dde5; border-radius: 6px; padding: 20px 25px; margin-bottom: 30px; }
-  .toc-title { font-size: 16px; font-weight: bold; color: #2c3e50; margin-bottom: 10px; }
-  .toc ol { padding-left: 22px; }
-  .toc li { margin: 4px 0; }
-  .toc a { color: #2c3e50; text-decoration: none; }
-  .toc a:hover { text-decoration: underline; }
-
-  /* Tables */
-  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
-  th, td { border: 1px solid #bdc3c7; padding: 7px 10px; text-align: left; }
-  th { background: #2c3e50; color: #fff; font-weight: 600; }
-  tr:nth-child(even) { background: #f5f7fa; }
-  tr:hover { background: #eaf0f6; }
-  .deleted-row { background: #fce4e4 !important; }
-  .deleted-row:hover { background: #f8d0d0 !important; }
-
-  /* Org chart */
-  .org-chart { background: #1e2a36; color: #b0d0f0; font-family: 'Courier New', monospace; font-size: 13px; padding: 20px 25px; border-radius: 6px; overflow-x: auto; white-space: pre; margin: 15px 0 20px; line-height: 1.4; }
-
-  /* Designations */
-  .legend { background: #f7f9fb; border: 1px solid #d5dde5; border-radius: 4px; padding: 10px 15px; margin: 10px 0; font-size: 13px; }
-  .legend strong { color: #2c3e50; }
-
-  /* Appendix summary table */
-  .summary-table { font-size: 10px; }
-  .summary-table th { font-size: 10px; padding: 4px 5px; }
-  .summary-table td { padding: 3px 5px; text-align: center; }
-  .c-full { background: #27ae60; color: #fff; }
-  .c-dept { background: #3498db; color: #fff; }
-  .c-own { background: #f1c40f; color: #333; }
-  .c-yes { background: #82e0aa; color: #333; }
-  .c-pay { background: #9b59b6; color: #fff; }
-  .c-view { background: #76d7c4; color: #333; }
-  .c-min { background: #e67e22; color: #fff; }
-  .c-no { background: #d5d8dc; color: #777; }
-
-  /* Print */
-  @media print {
-    body { padding: 15px; font-size: 11px; }
-    h2 { page-break-before: always; }
-    h2:first-of-type { page-break-before: avoid; }
-    table { page-break-inside: auto; }
-    tr { page-break-inside: avoid; }
-    .org-chart { background: #eee; color: #222; }
-  }
+  table { font-size: 10px; }
+  .appendix table { font-size: 8px; }
+  pre.orgchart { font-size: 10px; }
+}
 </style>
 </head>
 <body>
@@ -68,102 +68,115 @@
 <h1>Реструктуризация системы ролей и доступа Marketica CRM</h1>
 
 <div class="toc">
-  <div class="toc-title">Содержание</div>
-  <ol>
-    <li><a href="#s1">Что есть сейчас</a></li>
-    <li><a href="#s2">Что будет после изменений</a></li>
-    <li><a href="#s3">Структура отделов</a></li>
-    <li><a href="#s4">Кто к чему имеет доступ — по отделам</a></li>
-    <li><a href="#s5">Подробно: каждый модуль системы</a></li>
-    <li><a href="#s6">План реализации</a></li>
-    <li><a href="#appendix">Приложение: Сводная таблица доступа</a></li>
-  </ol>
+<div class="toc-title">Содержание</div>
+<ol>
+<li><a href="#s1">Что есть сейчас</a></li>
+<li><a href="#s2">Что будет после изменений</a></li>
+<li><a href="#s3">Структура отделов</a></li>
+<li><a href="#s4">Кто к чему имеет доступ — по отделам</a></li>
+<li><a href="#s5">Подробно: каждый модуль системы</a></li>
+<li><a href="#s6">План реализации</a></li>
+<li><a href="#s7">Приложение: Сводная таблица доступа</a></li>
+</ol>
 </div>
 
-<!-- ============================================================ -->
+<!-- ============ 1. Что есть сейчас ============ -->
+
 <h2 id="s1">1. Что есть сейчас</h2>
 
-<h3>Текущие роли (15 штук)</h3>
+<h3>Текущие роли (19 штук)</h3>
+
 <table>
-  <tr><th>&#8470;</th><th>Роль</th><th>Кто использует</th><th>Что будет</th></tr>
-  <tr><td>1</td><td>Super Admin</td><td>Роман, Сергей</td><td>Сохраняется</td></tr>
-  <tr><td>2</td><td>Менеджер</td><td>Менеджеры проектов</td><td>Сохраняется</td></tr>
-  <tr class="deleted-row"><td>3</td><td>Исполнитель</td><td>Базовая роль</td><td><strong>Удаляется</strong> (у каждого будет конкретная роль)</td></tr>
-  <tr><td>4</td><td>Разработчик</td><td>Разработчики</td><td>Сохраняется</td></tr>
-  <tr><td>5</td><td>Маркетолог</td><td>Маркетологи</td><td>Сохраняется</td></tr>
-  <tr><td>6</td><td>Бухгалтер</td><td>Бухгалтерия</td><td>Сохраняется</td></tr>
-  <tr><td>7</td><td>Общий доступ</td><td>Стажёры, подрядчики</td><td>Сохраняется</td></tr>
-  <tr class="deleted-row"><td>8</td><td>Уведомления о постановке</td><td>Получатели уведомлений</td><td><strong>Удаляется</strong> (станет настройкой)</td></tr>
-  <tr class="deleted-row"><td>9</td><td>Бог Маркетолог</td><td>—</td><td><strong>Удаляется</strong> (станет «Директор по маркетингу»)</td></tr>
-  <tr class="deleted-row"><td>10</td><td>Куратор</td><td>Кураторы проектов</td><td><strong>Удаляется</strong> (станет галочкой в проекте)</td></tr>
-  <tr class="deleted-row"><td>11</td><td>Ответственный</td><td>Согласующие оплаты</td><td><strong>Удаляется</strong> (станет правом доступа)</td></tr>
-  <tr class="deleted-row"><td>12</td><td>Project</td><td>Аналог менеджера</td><td><strong>Удаляется</strong> (дубликат)</td></tr>
-  <tr><td>13</td><td>Продажник</td><td>Отдел продаж</td><td>Сохраняется</td></tr>
-  <tr><td>14</td><td>Тестировщик</td><td>QA-специалисты</td><td>Сохраняется</td></tr>
-  <tr><td>15</td><td>Дизайнер</td><td>Дизайнеры</td><td>Сохраняется</td></tr>
+<tr><th>&#8470;</th><th>Роль</th><th>Кто использует</th><th>Что будет</th></tr>
+<tr><td>1</td><td>Super Admin</td><td>Роман, Сергей</td><td>Сохраняется как <strong>Супер Админ</strong></td></tr>
+<tr><td>2</td><td>Менеджер</td><td>Менеджеры проектов</td><td>Сохраняется</td></tr>
+<tr class="deleted"><td>3</td><td>Исполнитель</td><td>Базовая роль</td><td><strong>Удаляется</strong> (у каждого будет конкретная роль)</td></tr>
+<tr><td>4</td><td>Бухгалтер</td><td>Бухгалтерия</td><td>Сохраняется</td></tr>
+<tr><td>5</td><td>Маркетолог</td><td>Маркетологи</td><td>Сохраняется</td></tr>
+<tr><td>6</td><td>Разработчик</td><td>Разработчики</td><td>Сохраняется</td></tr>
+<tr><td>7</td><td>Общий доступ</td><td>Стажёры, подрядчики</td><td>Сохраняется</td></tr>
+<tr class="deleted"><td>8</td><td>Уведомления о постановке</td><td>Получатели уведомлений</td><td><strong>Удаляется</strong> (станет настройкой)</td></tr>
+<tr class="deleted"><td>9</td><td>Бог Маркетолог</td><td>—</td><td><strong>Удаляется</strong> (&rarr; Директор по маркетингу)</td></tr>
+<tr class="deleted"><td>10</td><td>Ответственный</td><td>Согласующие оплаты</td><td><strong>Удаляется</strong> (станет правом доступа)</td></tr>
+<tr class="deleted"><td>11</td><td>Project</td><td>Аналог менеджера</td><td><strong>Удаляется</strong> (дубликат)</td></tr>
+<tr class="deleted"><td>12</td><td>Чат</td><td>Telegram-бот</td><td><strong>Удаляется</strong> (станет настройкой)</td></tr>
+<tr class="renamed"><td>13</td><td>Руководитель отдела разработки</td><td>Тимлид</td><td>Переименуется в <strong>Тимлид</strong></td></tr>
+<tr class="deleted"><td>14</td><td>Исполнительный директор</td><td>—</td><td><strong>Удаляется</strong> (&rarr; Супер Админ или Рук. менеджеров)</td></tr>
+<tr class="renamed"><td>15</td><td>Руководитель отдела маркетинга</td><td>Дир. по маркетингу</td><td>Переименуется в <strong>Директор по маркетингу</strong></td></tr>
+<tr><td>16</td><td>Продажник</td><td>Отдел продаж</td><td>Сохраняется</td></tr>
+<tr><td>17</td><td>Тестировщик</td><td>QA-специалисты</td><td>Сохраняется</td></tr>
+<tr class="deleted"><td>18</td><td>Куратор</td><td>Кураторы проектов</td><td><strong>Удаляется</strong> (станет галочкой в проекте)</td></tr>
+<tr><td>19</td><td>Дизайнер</td><td>Дизайнеры</td><td>Сохраняется</td></tr>
 </table>
 
 <h3>Текущие модули системы</h3>
+
 <table>
-  <tr><th>Модуль</th><th>Что делает</th></tr>
-  <tr><td><strong>Дашборд</strong></td><td>Главная: лиды, проекты, выручка, загруженность, бонусы</td></tr>
-  <tr><td><strong>Лиды</strong></td><td>Потенциальные клиенты: воронка, статусы (активный, вата, отказ)</td></tr>
-  <tr><td><strong>Клиенты</strong></td><td>База клиентов: контакты, юр. данные, активные/архивные</td></tr>
-  <tr><td><strong>Контактные лица</strong></td><td>Контакты людей в компаниях клиентов</td></tr>
-  <tr><td><strong>Проекты</strong></td><td>Бюджет, исполнители, задачи, Trello, копирование</td></tr>
-  <tr><td><strong>Задачи</strong></td><td>Задачи внутри проектов</td></tr>
-  <tr><td><strong>Трудозатраты</strong></td><td>Учёт рабочего времени по проектам/задачам</td></tr>
-  <tr><td><strong>Заявки на оплату</strong></td><td>Запросы на оплату: создание, согласование, Telegram-уведомления</td></tr>
-  <tr><td><strong>Статистика</strong></td><td>5 страниц: разработчики, маркетологи, тестировщики, дизайнеры, менеджеры</td></tr>
-  <tr><td><strong>Отчёты</strong></td><td>По сотрудникам, проектам, лидам, статусы проектов</td></tr>
-  <tr><td><strong>Планирование</strong></td><td>Календарь загрузки по проектам</td></tr>
-  <tr><td><strong>Автотесты</strong></td><td>Мониторинг доступности сайтов</td></tr>
-  <tr><td><strong>Баланс хостингов</strong></td><td>Контроль остатков на хостинг-аккаунтах</td></tr>
-  <tr><td><strong>Управление</strong></td><td>Сотрудники, роли, права</td></tr>
+<tr><th>Модуль</th><th>Что делает</th></tr>
+<tr><td><strong>Дашборд</strong></td><td>Главная: лиды, проекты, выручка, загруженность, бонусы</td></tr>
+<tr><td><strong>Лиды</strong></td><td>Потенциальные клиенты: воронка, статусы (активный, вата, отказ)</td></tr>
+<tr><td><strong>Клиенты</strong></td><td>База клиентов: контакты, юр. данные, активные/архивные</td></tr>
+<tr><td><strong>Контактные лица</strong></td><td>Контакты людей в компаниях клиентов</td></tr>
+<tr><td><strong>Проекты</strong></td><td>Бюджет, исполнители, задачи, Trello, копирование</td></tr>
+<tr><td><strong>Задачи</strong></td><td>Задачи внутри проектов</td></tr>
+<tr><td><strong>Трудозатраты</strong></td><td>Учёт рабочего времени по проектам/задачам</td></tr>
+<tr><td><strong>Заявки на оплату</strong></td><td>Запросы на оплату: создание, согласование, Telegram-уведомления</td></tr>
+<tr><td><strong>Статистика</strong></td><td>5 страниц: разработчики, маркетологи, тестировщики, дизайнеры, менеджеры</td></tr>
+<tr><td><strong>Отчёты</strong></td><td>По сотрудникам, проектам, лидам, статусы проектов</td></tr>
+<tr><td><strong>Планирование</strong></td><td>Календарь загрузки по проектам</td></tr>
+<tr><td><strong>Автотесты</strong></td><td>Мониторинг доступности сайтов</td></tr>
+<tr><td><strong>Баланс хостингов</strong></td><td>Контроль остатков на хостинг-аккаунтах</td></tr>
+<tr><td><strong>Управление</strong></td><td>Сотрудники, роли, права</td></tr>
 </table>
 
-<!-- ============================================================ -->
+<!-- ============ 2. Что будет после изменений ============ -->
+
 <h2 id="s2">2. Что будет после изменений</h2>
 
-<p>Добавляются <strong>отделы</strong> и <strong>руководители отделов</strong>. Руководитель автоматически видит работу всех сотрудников своего отдела. Доступ к страницам у сотрудников не отбирается — добавляется структура и иерархия видимости данных.</p>
+<p>Добавляются <strong>отделы</strong> и <strong>руководители отделов</strong>. Руководитель видит работу всех сотрудников своего отдела. Доступ к страницам не отбирается — добавляется структура и иерархия видимости данных.</p>
 
 <h3>Новые роли (14 штук)</h3>
+
 <table>
-  <tr><th>&#8470;</th><th>Роль</th><th>Отдел</th><th>Уровень</th><th>Вместо старой роли</th></tr>
-  <tr><td>1</td><td><strong>Супер Админ</strong></td><td>Руководство</td><td>Полный доступ</td><td>Super Admin</td></tr>
-  <tr><td>2</td><td><strong>Директор по маркетингу</strong></td><td>Маркетинг</td><td>Руководитель</td><td>Бог Маркетолог</td></tr>
-  <tr><td>3</td><td><strong>Маркетолог</strong></td><td>Маркетинг</td><td>Сотрудник</td><td>Маркетолог</td></tr>
-  <tr><td>4</td><td><strong>Дизайнер</strong></td><td>Маркетинг</td><td>Сотрудник</td><td>Дизайнер</td></tr>
-  <tr><td>5</td><td><strong>Руководитель менеджеров</strong></td><td>Проекты</td><td>Руководитель</td><td>Новая роль</td></tr>
-  <tr><td>6</td><td><strong>Менеджер</strong></td><td>Проекты</td><td>Сотрудник</td><td>Менеджер</td></tr>
-  <tr><td>7</td><td><strong>Тимлид</strong></td><td>Разработка</td><td>Руководитель</td><td>Новая роль</td></tr>
-  <tr><td>8</td><td><strong>Разработчик</strong></td><td>Разработка</td><td>Сотрудник</td><td>Разработчик</td></tr>
-  <tr><td>9</td><td><strong>Тестировщик</strong></td><td>Разработка</td><td>Сотрудник</td><td>Тестировщик</td></tr>
-  <tr><td>10</td><td><strong>Руководитель КЦ</strong></td><td>Продажи</td><td>Руководитель</td><td>Новая роль</td></tr>
-  <tr><td>11</td><td><strong>Продажник</strong></td><td>Продажи</td><td>Сотрудник</td><td>Продажник</td></tr>
-  <tr><td>12</td><td><strong>Бухгалтер</strong></td><td>Офис</td><td>Сотрудник</td><td>Бухгалтер</td></tr>
-  <tr><td>13</td><td><strong>Офис-менеджер</strong></td><td>Офис</td><td>Сотрудник</td><td>Новая роль</td></tr>
-  <tr><td>14</td><td><strong>Общий доступ</strong></td><td>Без отдела</td><td>Минимальный</td><td>Общий доступ</td></tr>
+<tr><th>&#8470;</th><th>Роль</th><th>Отдел</th><th>Уровень</th><th>Вместо старой роли</th></tr>
+<tr><td>1</td><td><strong>Супер Админ</strong></td><td>Руководство</td><td>Полный доступ</td><td>Super Admin</td></tr>
+<tr><td>2</td><td><strong>Директор по маркетингу</strong></td><td>Маркетинг</td><td>Руководитель</td><td>Бог Маркетолог / Рук. отдела маркетинга</td></tr>
+<tr><td>3</td><td><strong>Маркетолог</strong></td><td>Маркетинг</td><td>Сотрудник</td><td>Маркетолог</td></tr>
+<tr><td>4</td><td><strong>Дизайнер</strong></td><td>Маркетинг</td><td>Сотрудник</td><td>Дизайнер</td></tr>
+<tr><td>5</td><td><strong>Руководитель менеджеров</strong></td><td>Проекты</td><td>Руководитель</td><td>Новая роль</td></tr>
+<tr><td>6</td><td><strong>Менеджер</strong></td><td>Проекты</td><td>Сотрудник</td><td>Менеджер</td></tr>
+<tr><td>7</td><td><strong>Тимлид</strong></td><td>Разработка</td><td>Руководитель</td><td>Рук. отдела разработки</td></tr>
+<tr><td>8</td><td><strong>Разработчик</strong></td><td>Разработка</td><td>Сотрудник</td><td>Разработчик</td></tr>
+<tr><td>9</td><td><strong>Тестировщик</strong></td><td>Разработка</td><td>Сотрудник</td><td>Тестировщик</td></tr>
+<tr><td>10</td><td><strong>Руководитель КЦ</strong></td><td>Продажи</td><td>Руководитель</td><td>Новая роль</td></tr>
+<tr><td>11</td><td><strong>Продажник</strong></td><td>Продажи</td><td>Сотрудник</td><td>Продажник</td></tr>
+<tr><td>12</td><td><strong>Бухгалтер</strong></td><td>Офис</td><td>Сотрудник</td><td>Бухгалтер</td></tr>
+<tr><td>13</td><td><strong>Офис-менеджер</strong></td><td>Офис</td><td>Сотрудник</td><td>Новая роль</td></tr>
+<tr><td>14</td><td><strong>Общий доступ</strong></td><td>Без отдела</td><td>Минимальный</td><td>Общий доступ</td></tr>
 </table>
 
 <h3>Что удаляется</h3>
+
 <table>
-  <tr><th>Старая роль</th><th>Куда переходит</th></tr>
-  <tr><td>Исполнитель</td><td>Каждый получает конкретную роль (Разработчик, Маркетолог и т.д.)</td></tr>
-  <tr><td>Бог Маркетолог</td><td>Директор по маркетингу</td></tr>
-  <tr><td>Project</td><td>Менеджер (была дубликатом)</td></tr>
-  <tr><td>Куратор</td><td>Галочка «Куратор» в карточке проекта</td></tr>
-  <tr><td>Ответственный</td><td>Право «Может согласовывать оплаты»</td></tr>
-  <tr><td>Уведомления о постановке</td><td>Право «Получает уведомления об оплатах»</td></tr>
+<tr><th>Старая роль</th><th>Куда переходит</th></tr>
+<tr><td>Исполнитель</td><td>Каждый получает конкретную роль</td></tr>
+<tr><td>Бог Маркетолог</td><td>Директор по маркетингу</td></tr>
+<tr><td>Project</td><td>Менеджер (дубликат)</td></tr>
+<tr><td>Исполнительный директор</td><td>Супер Админ или Рук. менеджеров</td></tr>
+<tr><td>Куратор</td><td>Галочка «Куратор» в карточке проекта</td></tr>
+<tr><td>Ответственный</td><td>Право «Может согласовывать оплаты»</td></tr>
+<tr><td>Уведомления о постановке</td><td>Право «Получает уведомления об оплатах»</td></tr>
+<tr><td>Чат</td><td>Настройка Telegram-бота (не роль)</td></tr>
 </table>
 
-<!-- ============================================================ -->
+<!-- ============ 3. Структура отделов ============ -->
+
 <h2 id="s3">3. Структура отделов</h2>
 
-<div class="org-chart">                         СУПЕР АДМИН
+<pre class="orgchart">                         СУПЕР АДМИН
                     (Роман, Сергей и др.)
                               |
-         &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9516;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9524;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9516;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+         +----------+---------+----------+----------+
          |          |         |          |          |
      МАРКЕТИНГ  ПРОЕКТЫ  РАЗРАБОТКА  ПРОДАЖИ    ОФИС
          |          |         |          |          |
@@ -172,28 +185,30 @@
      Маркетолог Менеджер  Разработчик Продажник
      Дизайнер             Тестировщик
 
-                    + ОБЩИЙ ДОСТУП (без отдела)</div>
+                    + ОБЩИЙ ДОСТУП (без отдела)</pre>
 
 <h3>Уровни видимости данных</h3>
+
 <table>
-  <tr><th>Уровень</th><th>Кто</th><th>Какие данные видит</th></tr>
-  <tr><td><strong>Полный</strong></td><td>Супер Админ</td><td>Все данные по всей компании</td></tr>
-  <tr><td><strong>Руководитель</strong></td><td>Дир. маркетинга, Рук. менеджеров, Тимлид, Рук. КЦ</td><td>Свои + все данные сотрудников своего отдела</td></tr>
-  <tr><td><strong>Сотрудник</strong></td><td>Менеджер, Разработчик, Маркетолог и т.д.</td><td>Свои данные + данные по своим проектам</td></tr>
-  <tr><td><strong>Минимальный</strong></td><td>Общий доступ</td><td>Только свои трудозатраты</td></tr>
+<tr><th>Уровень</th><th>Кто</th><th>Какие данные видит</th></tr>
+<tr><td><strong>Полный</strong></td><td>Супер Админ</td><td>Все данные по всей компании</td></tr>
+<tr><td><strong>Руководитель</strong></td><td>Дир. маркетинга, Рук. менеджеров, Тимлид, Рук. КЦ</td><td>Свои + данные всех сотрудников своего отдела</td></tr>
+<tr><td><strong>Сотрудник</strong></td><td>Менеджер, Разработчик, Маркетолог и т.д.</td><td>Свои данные + данные по своим проектам</td></tr>
+<tr><td><strong>Минимальный</strong></td><td>Общий доступ</td><td>Только свои трудозатраты</td></tr>
 </table>
 
-<!-- ============================================================ -->
+<!-- ============ 4. Кто к чему имеет доступ ============ -->
+
 <h2 id="s4">4. Кто к чему имеет доступ — по отделам</h2>
 
-<div class="legend">
-  <strong>Обозначения:</strong>
-  <strong>Полный</strong> — все данные, создание/редактирование/удаление &nbsp;|&nbsp;
-  <strong>Да</strong> — есть доступ к странице &nbsp;|&nbsp;
-  <strong>Отдел</strong> — данные своего отдела &nbsp;|&nbsp;
-  <strong>Своё</strong> — свои записи и записи по своим проектам &nbsp;|&nbsp;
-  <strong>—</strong> — нет доступа
-</div>
+<h3>Обозначения</h3>
+<ul class="plain">
+<li><strong>Полный</strong> — все данные, создание/редактирование/удаление</li>
+<li><strong>Да</strong> — есть доступ к странице</li>
+<li><strong>Отдел</strong> — данные своего отдела</li>
+<li><strong>Своё</strong> — свои записи и записи по своим проектам</li>
+<li><strong>—</strong> — нет доступа</li>
+</ul>
 
 <h3>4.1. Супер Админ</h3>
 <blockquote>Роман, Сергей и другие. Полный доступ ко всему: все страницы, все данные, все действия, управление сотрудниками/ролями/правами/отделами.</blockquote>
@@ -202,311 +217,322 @@
 
 <h4>Директор по маркетингу</h4>
 <table>
-  <tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
-  <tr><td>Дашборд</td><td>Да</td><td>Показатели маркетинга, бонусы (сумма по отделу)</td></tr>
-  <tr><td>Проекты</td><td>Да</td><td>Проекты, где участвуют сотрудники его отдела</td></tr>
-  <tr><td>Задачи</td><td>Да</td><td>Задачи отдела</td></tr>
-  <tr><td>Трудозатраты</td><td>Отдел</td><td>Свои + всех маркетологов и дизайнеров</td></tr>
-  <tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
-  <tr><td>Стат. маркетологов</td><td>Отдел</td><td>Строки всех маркетологов</td></tr>
-  <tr><td>Стат. дизайнеров</td><td>Отдел</td><td>Строки всех дизайнеров</td></tr>
-  <tr><td>Отчёт по проектам</td><td>Да</td><td>Исполнители отдела</td></tr>
+<tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
+<tr><td>Дашборд</td><td>Да</td><td>Показатели маркетинга, бонусы (сумма по отделу)</td></tr>
+<tr><td>Проекты</td><td>Да</td><td>Проекты, где участвуют сотрудники его отдела</td></tr>
+<tr><td>Задачи</td><td>Да</td><td>Задачи отдела</td></tr>
+<tr><td>Трудозатраты</td><td>Отдел</td><td>Свои + всех маркетологов и дизайнеров</td></tr>
+<tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
+<tr><td>Стат. маркетологов</td><td>Отдел</td><td>Строки всех маркетологов</td></tr>
+<tr><td>Стат. дизайнеров</td><td>Отдел</td><td>Строки всех дизайнеров</td></tr>
+<tr><td>Отчёт по проектам</td><td>Да</td><td>Исполнители отдела</td></tr>
 </table>
 
 <h4>Маркетолог</h4>
 <table>
-  <tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
-  <tr><td>Дашборд</td><td>Да</td><td>Свои показатели, бонус (% от валовой)</td></tr>
-  <tr><td>Проекты</td><td>Своё</td><td>Проекты, где он исполнитель</td></tr>
-  <tr><td>Задачи</td><td>Своё</td><td>Свои задачи</td></tr>
-  <tr><td>Трудозатраты</td><td>Своё</td><td>Свои записи, лимит минут</td></tr>
-  <tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
-  <tr><td>Стат. маркетологов</td><td>Своё</td><td>Своя строка</td></tr>
+<tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
+<tr><td>Дашборд</td><td>Да</td><td>Свои показатели, бонус (% от валовой)</td></tr>
+<tr><td>Проекты</td><td>Своё</td><td>Проекты, где он исполнитель</td></tr>
+<tr><td>Задачи</td><td>Своё</td><td>Свои задачи</td></tr>
+<tr><td>Трудозатраты</td><td>Своё</td><td>Свои записи, лимит минут</td></tr>
+<tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
+<tr><td>Стат. маркетологов</td><td>Своё</td><td>Своя строка</td></tr>
 </table>
 
 <h4>Дизайнер</h4>
 <table>
-  <tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
-  <tr><td>Дашборд</td><td>Да</td><td>Свои показатели</td></tr>
-  <tr><td>Проекты</td><td>Своё</td><td>Проекты, где он исполнитель</td></tr>
-  <tr><td>Задачи</td><td>Своё</td><td>Свои задачи</td></tr>
-  <tr><td>Трудозатраты</td><td>Своё</td><td>Свои записи, лимит минут</td></tr>
-  <tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
-  <tr><td>Стат. дизайнеров</td><td>Своё</td><td>Своя строка</td></tr>
+<tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
+<tr><td>Дашборд</td><td>Да</td><td>Свои показатели</td></tr>
+<tr><td>Проекты</td><td>Своё</td><td>Проекты, где он исполнитель</td></tr>
+<tr><td>Задачи</td><td>Своё</td><td>Свои задачи</td></tr>
+<tr><td>Трудозатраты</td><td>Своё</td><td>Свои записи, лимит минут</td></tr>
+<tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
+<tr><td>Стат. дизайнеров</td><td>Своё</td><td>Своя строка</td></tr>
 </table>
 
 <h3>4.3. Отдел проектов</h3>
 
 <h4>Руководитель менеджеров</h4>
 <table>
-  <tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
-  <tr><td>Дашборд</td><td>Да</td><td>Все показатели</td></tr>
-  <tr><td>Лиды</td><td>Полный</td><td>Все лиды</td></tr>
-  <tr><td>Клиенты</td><td>Полный</td><td>Все клиенты</td></tr>
-  <tr><td>Контактные лица</td><td>Полный</td><td>Все контакты</td></tr>
-  <tr><td>Проекты</td><td>Полный</td><td>Все проекты, создание, редактирование, копирование</td></tr>
-  <tr><td>Задачи</td><td>Полный</td><td>Все задачи</td></tr>
-  <tr><td>Трудозатраты</td><td>Полный</td><td>Все записи, без лимита минут</td></tr>
-  <tr><td>Заявки на оплату</td><td>Полный</td><td>Создание, согласование, удаление</td></tr>
-  <tr><td>Стат. менеджеров</td><td>Отдел</td><td>Строки всех менеджеров</td></tr>
-  <tr><td>Все отчёты</td><td>Полный</td><td>Все отчёты</td></tr>
-  <tr><td>Планирование</td><td>Полный</td><td>Все сотрудники</td></tr>
-  <tr><td>Автотесты / Хостинги</td><td>Да</td><td>Все тесты и хостинги</td></tr>
+<tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
+<tr><td>Дашборд</td><td>Да</td><td>Все показатели</td></tr>
+<tr><td>Лиды</td><td>Полный</td><td>Все лиды</td></tr>
+<tr><td>Клиенты</td><td>Полный</td><td>Все клиенты</td></tr>
+<tr><td>Контактные лица</td><td>Полный</td><td>Все контакты</td></tr>
+<tr><td>Проекты</td><td>Полный</td><td>Все проекты, создание, редактирование, копирование</td></tr>
+<tr><td>Задачи</td><td>Полный</td><td>Все задачи</td></tr>
+<tr><td>Трудозатраты</td><td>Полный</td><td>Все записи, без лимита минут</td></tr>
+<tr><td>Заявки на оплату</td><td>Полный</td><td>Создание, согласование, удаление</td></tr>
+<tr><td>Стат. менеджеров</td><td>Отдел</td><td>Строки всех менеджеров</td></tr>
+<tr><td>Все отчёты</td><td>Полный</td><td>Все отчёты</td></tr>
+<tr><td>Планирование</td><td>Полный</td><td>Все сотрудники</td></tr>
+<tr><td>Автотесты / Хостинги</td><td>Да</td><td>Все тесты и хостинги</td></tr>
 </table>
 
 <h4>Менеджер</h4>
 <table>
-  <tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
-  <tr><td>Дашборд</td><td>Да</td><td>Все показатели, бонус (валовая закрытых)</td></tr>
-  <tr><td>Лиды</td><td>Полный</td><td>Все лиды</td></tr>
-  <tr><td>Клиенты</td><td>Полный</td><td>Все клиенты</td></tr>
-  <tr><td>Контактные лица</td><td>Полный</td><td>Все контакты</td></tr>
-  <tr><td>Проекты</td><td>Полный</td><td>Все проекты, создание, редактирование</td></tr>
-  <tr><td>Задачи</td><td>Полный</td><td>Создание и редактирование задач</td></tr>
-  <tr><td>Трудозатраты</td><td>Полный</td><td>Все записи, без лимита минут</td></tr>
-  <tr><td>Заявки на оплату</td><td>Полный</td><td>Создание, редактирование, согласование</td></tr>
-  <tr><td>Стат. менеджеров</td><td>Своё</td><td>Своя строка</td></tr>
-  <tr><td>Все отчёты</td><td>Полный</td><td>Все отчёты</td></tr>
-  <tr><td>Планирование</td><td>Полный</td><td>Все сотрудники</td></tr>
-  <tr><td>Автотесты / Хостинги</td><td>Да</td><td>Все тесты и хостинги</td></tr>
+<tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
+<tr><td>Дашборд</td><td>Да</td><td>Все показатели, бонус (валовая закрытых)</td></tr>
+<tr><td>Лиды</td><td>Полный</td><td>Все лиды</td></tr>
+<tr><td>Клиенты</td><td>Полный</td><td>Все клиенты</td></tr>
+<tr><td>Контактные лица</td><td>Полный</td><td>Все контакты</td></tr>
+<tr><td>Проекты</td><td>Полный</td><td>Все проекты, создание, редактирование</td></tr>
+<tr><td>Задачи</td><td>Полный</td><td>Создание и редактирование задач</td></tr>
+<tr><td>Трудозатраты</td><td>Полный</td><td>Все записи, без лимита минут</td></tr>
+<tr><td>Заявки на оплату</td><td>Полный</td><td>Создание, редактирование, согласование</td></tr>
+<tr><td>Стат. менеджеров</td><td>Своё</td><td>Своя строка</td></tr>
+<tr><td>Все отчёты</td><td>Полный</td><td>Все отчёты</td></tr>
+<tr><td>Планирование</td><td>Полный</td><td>Все сотрудники</td></tr>
+<tr><td>Автотесты / Хостинги</td><td>Да</td><td>Все тесты и хостинги</td></tr>
 </table>
 
 <h3>4.4. Отдел разработки</h3>
 
 <h4>Тимлид</h4>
 <table>
-  <tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
-  <tr><td>Дашборд</td><td>Да</td><td>Свои показатели</td></tr>
-  <tr><td>Проекты</td><td>Отдел</td><td>Проекты с разработчиками/тестировщиками</td></tr>
-  <tr><td>Задачи</td><td>Отдел</td><td>Создание и редактирование задач отдела</td></tr>
-  <tr><td>Трудозатраты</td><td>Отдел</td><td>Свои + всех разработчиков и тестировщиков</td></tr>
-  <tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
-  <tr><td>Стат. разработчиков</td><td>Отдел</td><td>Строки всех разработчиков</td></tr>
-  <tr><td>Стат. тестировщиков</td><td>Отдел</td><td>Строки всех тестировщиков</td></tr>
-  <tr><td>Планирование</td><td>Отдел</td><td>Разработчики и тестировщики</td></tr>
-  <tr><td>Автотесты / Хостинги</td><td>Да</td><td>Все тесты и хостинги</td></tr>
+<tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
+<tr><td>Дашборд</td><td>Да</td><td>Свои показатели</td></tr>
+<tr><td>Проекты</td><td>Отдел</td><td>Проекты с разработчиками/тестировщиками</td></tr>
+<tr><td>Задачи</td><td>Отдел</td><td>Создание и редактирование задач отдела</td></tr>
+<tr><td>Трудозатраты</td><td>Отдел</td><td>Свои + всех разработчиков и тестировщиков</td></tr>
+<tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
+<tr><td>Стат. разработчиков</td><td>Отдел</td><td>Строки всех разработчиков</td></tr>
+<tr><td>Стат. тестировщиков</td><td>Отдел</td><td>Строки всех тестировщиков</td></tr>
+<tr><td>Планирование</td><td>Отдел</td><td>Разработчики и тестировщики</td></tr>
+<tr><td>Автотесты / Хостинги</td><td>Да</td><td>Все тесты и хостинги</td></tr>
 </table>
 
 <h4>Разработчик</h4>
 <table>
-  <tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
-  <tr><td>Дашборд</td><td>Да</td><td>Свои показатели, бонус (% от валовой)</td></tr>
-  <tr><td>Проекты</td><td>Своё</td><td>Проекты, где он исполнитель</td></tr>
-  <tr><td>Задачи</td><td>Своё</td><td>Свои задачи</td></tr>
-  <tr><td>Трудозатраты</td><td>Своё</td><td>Свои записи, лимит минут</td></tr>
-  <tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
-  <tr><td>Стат. разработчиков</td><td>Своё</td><td>Своя строка</td></tr>
-  <tr><td>Планирование</td><td>Своё</td><td>Свои проекты</td></tr>
-  <tr><td>Автотесты / Хостинги</td><td>Да</td><td>Просмотр тестов и хостингов</td></tr>
+<tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
+<tr><td>Дашборд</td><td>Да</td><td>Свои показатели, бонус (% от валовой)</td></tr>
+<tr><td>Проекты</td><td>Своё</td><td>Проекты, где он исполнитель</td></tr>
+<tr><td>Задачи</td><td>Своё</td><td>Свои задачи</td></tr>
+<tr><td>Трудозатраты</td><td>Своё</td><td>Свои записи, лимит минут</td></tr>
+<tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
+<tr><td>Стат. разработчиков</td><td>Своё</td><td>Своя строка</td></tr>
+<tr><td>Планирование</td><td>Своё</td><td>Свои проекты</td></tr>
+<tr><td>Автотесты / Хостинги</td><td>Да</td><td>Просмотр тестов и хостингов</td></tr>
 </table>
 
 <h4>Тестировщик</h4>
 <table>
-  <tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
-  <tr><td>Дашборд</td><td>Да</td><td>Свои показатели</td></tr>
-  <tr><td>Проекты</td><td>Своё</td><td>Проекты, где он исполнитель</td></tr>
-  <tr><td>Задачи</td><td>Своё</td><td>Свои задачи</td></tr>
-  <tr><td>Трудозатраты</td><td>Своё</td><td>Свои записи, лимит минут</td></tr>
-  <tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
-  <tr><td>Стат. тестировщиков</td><td>Своё</td><td>Своя строка</td></tr>
-  <tr><td>Автотесты / Хостинги</td><td>Да</td><td>Просмотр тестов и хостингов</td></tr>
+<tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
+<tr><td>Дашборд</td><td>Да</td><td>Свои показатели</td></tr>
+<tr><td>Проекты</td><td>Своё</td><td>Проекты, где он исполнитель</td></tr>
+<tr><td>Задачи</td><td>Своё</td><td>Свои задачи</td></tr>
+<tr><td>Трудозатраты</td><td>Своё</td><td>Свои записи, лимит минут</td></tr>
+<tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
+<tr><td>Стат. тестировщиков</td><td>Своё</td><td>Своя строка</td></tr>
+<tr><td>Автотесты / Хостинги</td><td>Да</td><td>Просмотр тестов и хостингов</td></tr>
 </table>
 
 <h3>4.5. Отдел продаж</h3>
 
 <h4>Руководитель КЦ</h4>
 <table>
-  <tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
-  <tr><td>Дашборд</td><td>Да</td><td>Показатели продаж</td></tr>
-  <tr><td>Лиды</td><td>Полный</td><td>Все лиды</td></tr>
-  <tr><td>Контактные лица</td><td>Полный</td><td>Все контакты</td></tr>
-  <tr><td>Трудозатраты</td><td>Отдел</td><td>Свои + всех продажников</td></tr>
-  <tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
-  <tr><td>Отчёт по лидам</td><td>Полный</td><td>Вся аналитика</td></tr>
+<tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
+<tr><td>Дашборд</td><td>Да</td><td>Показатели продаж</td></tr>
+<tr><td>Лиды</td><td>Полный</td><td>Все лиды</td></tr>
+<tr><td>Контактные лица</td><td>Полный</td><td>Все контакты</td></tr>
+<tr><td>Трудозатраты</td><td>Отдел</td><td>Свои + всех продажников</td></tr>
+<tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
+<tr><td>Отчёт по лидам</td><td>Полный</td><td>Вся аналитика</td></tr>
 </table>
 
 <h4>Продажник</h4>
 <table>
-  <tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
-  <tr><td>Дашборд</td><td>Да</td><td>Свои показатели</td></tr>
-  <tr><td>Лиды</td><td>Полный</td><td>Все лиды, создание</td></tr>
-  <tr><td>Контактные лица</td><td>Полный</td><td>Создание контактов</td></tr>
-  <tr><td>Трудозатраты</td><td>Своё</td><td>Свои записи</td></tr>
-  <tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
+<tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
+<tr><td>Дашборд</td><td>Да</td><td>Свои показатели</td></tr>
+<tr><td>Лиды</td><td>Полный</td><td>Все лиды, создание</td></tr>
+<tr><td>Контактные лица</td><td>Полный</td><td>Создание контактов</td></tr>
+<tr><td>Трудозатраты</td><td>Своё</td><td>Свои записи</td></tr>
+<tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
 </table>
 
 <h3>4.6. Офис</h3>
 
 <h4>Бухгалтер</h4>
 <table>
-  <tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
-  <tr><td>Дашборд</td><td>Да</td><td>Дашборд с финансовыми показателями</td></tr>
-  <tr><td>Заявки на оплату</td><td>Полный + Оплата</td><td>Все заявки, оплата/отклонение, комментарии, Telegram-уведомления</td></tr>
-  <tr><td>Клиенты</td><td>Просмотр</td><td>Все клиенты (для сверки)</td></tr>
-  <tr><td>Проекты</td><td>Просмотр</td><td>Все проекты (бюджет, поступления)</td></tr>
-  <tr><td>Трудозатраты</td><td>Своё</td><td>Свои записи</td></tr>
-  <tr><td>Отчёт по проектам</td><td>Просмотр</td><td>Финансовая часть отчётов</td></tr>
-  <tr><td>Отчёт по сотрудникам</td><td>Просмотр</td><td>Для расчёта зарплат</td></tr>
+<tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
+<tr><td>Дашборд</td><td>Да</td><td>Дашборд</td></tr>
+<tr><td>Заявки на оплату</td><td>Просмотр + Оплата</td><td>Все заявки, оплата/отклонение, комментарии, Telegram-уведомления</td></tr>
+<tr><td>Трудозатраты</td><td>Своё</td><td>Свои записи</td></tr>
 </table>
 
 <h4>Офис-менеджер</h4>
 <table>
-  <tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
-  <tr><td>Дашборд</td><td>Да</td><td>Базовый дашборд</td></tr>
-  <tr><td>Трудозатраты</td><td>Своё</td><td>Свои записи</td></tr>
-  <tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
+<tr><th>Модуль</th><th>Доступ</th><th>Что видит</th></tr>
+<tr><td>Дашборд</td><td>Да</td><td>Базовый дашборд</td></tr>
+<tr><td>Трудозатраты</td><td>Своё</td><td>Свои записи</td></tr>
+<tr><td>Заявки на оплату</td><td>Да</td><td>Создание и просмотр заявок</td></tr>
 </table>
 
 <h3>4.7. Общий доступ (без отдела)</h3>
 <blockquote>Стажёры, подрядчики, сотрудники на испытательном сроке.</blockquote>
+
 <table>
-  <tr><th>Модуль</th><th>Доступ</th></tr>
-  <tr><td>Дашборд</td><td>Минимальный</td></tr>
-  <tr><td>Трудозатраты</td><td>Только создание своих записей</td></tr>
+<tr><th>Модуль</th><th>Доступ</th></tr>
+<tr><td>Дашборд</td><td>Минимальный</td></tr>
+<tr><td>Трудозатраты</td><td>Только создание своих записей</td></tr>
 </table>
 
-<!-- ============================================================ -->
+<!-- ============ 5. Подробно: каждый модуль системы ============ -->
+
 <h2 id="s5">5. Подробно: каждый модуль системы</h2>
 
 <h3>5.1. Дашборд</h3>
 <p><strong>Что на странице:</strong> количество лидов, валовая прибыль, заявки с сайта, сотрудники, активные проекты, загруженность, бонусы, ссылки на статистику/задачи/вики.</p>
 <p><strong>Что меняется:</strong> руководители отделов видят сводку по своему отделу.</p>
+
 <table>
-  <tr><th>Данные</th><th>Супер Админ</th><th>Руководитель</th><th>Сотрудник</th><th>Общий доступ</th></tr>
-  <tr><td>Лиды в работе</td><td>Все</td><td>Свой отдел*</td><td>—</td><td>—</td></tr>
-  <tr><td>Валовая прибыль</td><td>Вся</td><td>Свой отдел*</td><td>—</td><td>—</td></tr>
-  <tr><td>Активные проекты</td><td>Все</td><td>Отдел</td><td>Свои</td><td>—</td></tr>
-  <tr><td>Загруженность</td><td>Все</td><td>Отдел</td><td>Своя</td><td>Своя</td></tr>
-  <tr><td>Бонусы</td><td>Свои</td><td>Свои</td><td>Свои</td><td>—</td></tr>
+<tr><th>Данные</th><th>Супер Админ</th><th>Руководитель</th><th>Сотрудник</th><th>Общий доступ</th></tr>
+<tr><td>Лиды в работе</td><td>Все</td><td>Свой отдел*</td><td>—</td><td>—</td></tr>
+<tr><td>Валовая прибыль</td><td>Вся</td><td>Свой отдел*</td><td>—</td><td>—</td></tr>
+<tr><td>Активные проекты</td><td>Все</td><td>Отдел</td><td>Свои</td><td>—</td></tr>
+<tr><td>Загруженность</td><td>Все</td><td>Отдел</td><td>Своя</td><td>Своя</td></tr>
+<tr><td>Бонусы</td><td>Свои</td><td>Свои</td><td>Свои</td><td>—</td></tr>
 </table>
 <p>*Менеджеры видят все лиды и всю валовую — как и сейчас.</p>
 
 <h3>5.2. Лиды</h3>
 <p><strong>Что на страницах:</strong> список лидов (активные, вата, отказ), создание, редактирование (статус, воронка, звонки, КП, комментарий).</p>
+
 <table>
-  <tr><th>Действие</th><th>Супер Админ</th><th>Рук. менеджеров</th><th>Менеджер</th><th>Рук. КЦ</th><th>Продажник</th></tr>
-  <tr><td>Просмотр</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
-  <tr><td>Создание</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
-  <tr><td>Редактирование</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
-  <tr><td>Удаление</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td><td>Нет</td></tr>
+<tr><th>Действие</th><th>Супер Админ</th><th>Рук. менеджеров</th><th>Менеджер</th><th>Рук. КЦ</th><th>Продажник</th></tr>
+<tr><td>Просмотр</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
+<tr><td>Создание</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
+<tr><td>Редактирование</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
+<tr><td>Удаление</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td><td>Нет</td></tr>
 </table>
 
 <h3>5.3. Клиенты</h3>
 <p><strong>Что на страницах:</strong> список (все, активные, архивные), создание, карточка клиента.</p>
+
 <table>
-  <tr><th>Действие</th><th>Супер Админ</th><th>Рук. менеджеров</th><th>Менеджер</th><th>Бухгалтер</th></tr>
-  <tr><td>Просмотр</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
-  <tr><td>Создание</td><td>Да</td><td>Да</td><td>Да</td><td>Нет</td></tr>
-  <tr><td>Редактирование</td><td>Да</td><td>Да</td><td>Да</td><td>Нет</td></tr>
-  <tr><td>Архивирование</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td></tr>
+<tr><th>Действие</th><th>Супер Админ</th><th>Рук. менеджеров</th><th>Менеджер</th></tr>
+<tr><td>Просмотр</td><td>Да</td><td>Да</td><td>Да</td></tr>
+<tr><td>Создание</td><td>Да</td><td>Да</td><td>Да</td></tr>
+<tr><td>Редактирование</td><td>Да</td><td>Да</td><td>Да</td></tr>
+<tr><td>Архивирование</td><td>Да</td><td>Да</td><td>Нет</td></tr>
 </table>
 
 <h3>5.4. Контактные лица</h3>
 <p><strong>Что на страницах:</strong> список, создание/редактирование, публичная ссылка.</p>
+
 <table>
-  <tr><th>Действие</th><th>Супер Админ</th><th>Рук. менеджеров</th><th>Менеджер</th><th>Рук. КЦ</th><th>Продажник</th></tr>
-  <tr><td>Просмотр</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
-  <tr><td>Создание</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
-  <tr><td>Редактирование</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
-  <tr><td>Удаление</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td><td>Нет</td></tr>
+<tr><th>Действие</th><th>Супер Админ</th><th>Рук. менеджеров</th><th>Менеджер</th><th>Рук. КЦ</th><th>Продажник</th></tr>
+<tr><td>Просмотр</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
+<tr><td>Создание</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
+<tr><td>Редактирование</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
+<tr><td>Удаление</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td><td>Нет</td></tr>
 </table>
 
 <h3>5.5. Проекты</h3>
 <p><strong>Что на страницах:</strong> список, создание (клиент, услуги, бюджет, исполнители, менеджер, куратор, Trello), карточка, копирование.</p>
+
 <table>
-  <tr><th>Действие</th><th>Супер Админ</th><th>Рук. мен.</th><th>Менеджер</th><th>Дир. марк.</th><th>Тимлид</th><th>Сотрудник*</th><th>Бухгалтер</th></tr>
-  <tr><td>Просмотр</td><td>Все</td><td>Все</td><td>Все</td><td>Отдел</td><td>Отдел</td><td>Свои</td><td>Все</td></tr>
-  <tr><td>Создание</td><td>Да</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td><td>Нет</td><td>Нет</td></tr>
-  <tr><td>Редактирование</td><td>Да</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td><td>Нет</td><td>Нет</td></tr>
-  <tr><td>Копирование</td><td>Да</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td><td>Нет</td><td>Нет</td></tr>
+<tr><th>Действие</th><th>Супер Админ</th><th>Рук. мен.</th><th>Менеджер</th><th>Дир. марк.</th><th>Тимлид</th><th>Сотрудник*</th></tr>
+<tr><td>Просмотр</td><td>Все</td><td>Все</td><td>Все</td><td>Отдел</td><td>Отдел</td><td>Свои</td></tr>
+<tr><td>Создание</td><td>Да</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td><td>Нет</td></tr>
+<tr><td>Редактирование</td><td>Да</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td><td>Нет</td></tr>
+<tr><td>Копирование</td><td>Да</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td><td>Нет</td></tr>
 </table>
 <p>*Сотрудник = Разработчик, Маркетолог, Дизайнер, Тестировщик — видят проекты, где они исполнители.</p>
 
-<p><strong>Поля формы проекта:</strong></p>
+<h4>Поля формы проекта</h4>
 <table>
-  <tr><th>Поле</th><th>Кто видит</th><th>Кто редактирует</th></tr>
-  <tr><td>Название</td><td>Все с доступом</td><td>Менеджер и выше</td></tr>
-  <tr><td>Клиент</td><td>Все с доступом</td><td>Менеджер и выше</td></tr>
-  <tr><td>Услуги</td><td>Все с доступом</td><td>Менеджер и выше</td></tr>
-  <tr><td>Бюджет (поступления, реклама, расходы)</td><td>Менеджер и выше + Бухгалтер</td><td>Менеджер и выше</td></tr>
-  <tr><td>Исполнители</td><td>Менеджер и выше</td><td>Менеджер и выше</td></tr>
-  <tr><td>Менеджер проекта</td><td>Менеджер и выше</td><td>Менеджер и выше</td></tr>
-  <tr><td>Куратор (галочка)</td><td>Менеджер и выше</td><td>Менеджер и выше</td></tr>
-  <tr><td>Trello-доска</td><td>Все с доступом</td><td>Менеджер и выше</td></tr>
-  <tr><td>Статус</td><td>Все с доступом</td><td>Менеджер и выше</td></tr>
+<tr><th>Поле</th><th>Кто видит</th><th>Кто редактирует</th></tr>
+<tr><td>Название</td><td>Все с доступом</td><td>Менеджер и выше</td></tr>
+<tr><td>Клиент</td><td>Все с доступом</td><td>Менеджер и выше</td></tr>
+<tr><td>Услуги</td><td>Все с доступом</td><td>Менеджер и выше</td></tr>
+<tr><td>Бюджет (поступления, реклама, расходы)</td><td>Менеджер и выше</td><td>Менеджер и выше</td></tr>
+<tr><td>Исполнители</td><td>Менеджер и выше</td><td>Менеджер и выше</td></tr>
+<tr><td>Менеджер проекта</td><td>Менеджер и выше</td><td>Менеджер и выше</td></tr>
+<tr><td>Куратор (галочка)</td><td>Менеджер и выше</td><td>Менеджер и выше</td></tr>
+<tr><td>Trello-доска</td><td>Все с доступом</td><td>Менеджер и выше</td></tr>
+<tr><td>Статус</td><td>Все с доступом</td><td>Менеджер и выше</td></tr>
 </table>
 
 <h3>5.6. Задачи</h3>
 <p><strong>Что на страницах:</strong> создание внутри проекта (название, описание, исполнитель, время), редактирование.</p>
+
 <table>
-  <tr><th>Действие</th><th>Супер Админ</th><th>Рук. мен.</th><th>Менеджер</th><th>Тимлид</th><th>Сотрудник</th></tr>
-  <tr><td>Просмотр</td><td>Да</td><td>Да</td><td>Да</td><td>Отдел</td><td>Свои</td></tr>
-  <tr><td>Создание</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Нет</td></tr>
-  <tr><td>Редактирование</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Нет</td></tr>
+<tr><th>Действие</th><th>Супер Админ</th><th>Рук. мен.</th><th>Менеджер</th><th>Тимлид</th><th>Сотрудник</th></tr>
+<tr><td>Просмотр</td><td>Да</td><td>Да</td><td>Да</td><td>Отдел</td><td>Свои</td></tr>
+<tr><td>Создание</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Нет</td></tr>
+<tr><td>Редактирование</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Нет</td></tr>
 </table>
 
 <h3>5.7. Трудозатраты</h3>
-<p><strong>Что на страницах:</strong> список (по датам), создание (проект, задача, время, комментарий), архив.</p>
+<p><strong>Что на страницах:</strong> список (по датам), создание записи (проект, задача, время, комментарий).</p>
+
 <table>
-  <tr><th>Действие</th><th>Супер Админ</th><th>Рук. отдела</th><th>Менеджер</th><th>Сотрудник</th><th>Общий доступ</th></tr>
-  <tr><td>Просмотр</td><td>Все</td><td>Отдел</td><td>Все</td><td>Свои</td><td>Свои</td></tr>
-  <tr><td>Создание</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
-  <tr><td>Редактирование</td><td>Да</td><td>Да</td><td>Да</td><td>Свои</td><td>Нет</td></tr>
-  <tr><td>Удаление</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td><td>Нет</td></tr>
-  <tr><td>Архив</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Нет</td></tr>
+<tr><th>Действие</th><th>Супер Админ</th><th>Рук. отдела</th><th>Менеджер</th><th>Сотрудник</th><th>Общий доступ</th></tr>
+<tr><td>Просмотр</td><td>Все</td><td>Отдел</td><td>Все</td><td>Свои</td><td>Свои</td></tr>
+<tr><td>Создание</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
+<tr><td>Редактирование своих</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
+<tr><td>Удаление своих</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
+<tr><td>Редактирование чужих</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td><td>Нет</td></tr>
+<tr><td>Удаление чужих</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td><td>Нет</td></tr>
 </table>
 <p><strong>Лимит минут:</strong> Менеджер, Рук. менеджеров, Супер Админ — <strong>без лимита</strong>. Все остальные — <strong>с лимитом</strong>.</p>
 
 <h3>5.8. Заявки на оплату</h3>
 <p><strong>Что на страницах:</strong> список (активные, архивные), создание (клиент, проект, подрядчик, сумма, срочность, сверхбюджет, согласующие), карточка (статус, комментарии, история), архив.</p>
+
 <p><strong>Процесс согласования:</strong></p>
-<ol style="margin: 8px 0 8px 25px;">
-  <li>Сотрудник создаёт заявку и назначает согласующих</li>
-  <li>Согласующие получают уведомление в Telegram</li>
-  <li>После одобрения всеми — бухгалтер получает уведомление</li>
-  <li>Бухгалтер отмечает «Оплачено» или «Отклонено»</li>
+<ol>
+<li>Сотрудник создаёт заявку и назначает согласующих</li>
+<li>Согласующие получают уведомление в Telegram</li>
+<li>После одобрения всеми — бухгалтер получает уведомление</li>
+<li>Бухгалтер отмечает «Оплачено» или «Отклонено»</li>
 </ol>
+
 <table>
-  <tr><th>Действие</th><th>Супер Админ</th><th>Рук. мен.</th><th>Менеджер</th><th>Бухгалтер</th><th>Все остальные</th></tr>
-  <tr><td>Просмотр</td><td>Все</td><td>Все</td><td>Все</td><td>Все</td><td>Да</td></tr>
-  <tr><td>Создание</td><td>Да</td><td>Да</td><td>Да</td><td>Нет</td><td>Да</td></tr>
-  <tr><td>Редактирование</td><td>Да</td><td>Да</td><td>Да</td><td>Нет</td><td>Свои</td></tr>
-  <tr><td>Удаление</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td><td>Нет</td></tr>
-  <tr><td>Оплата/Отклонение</td><td>Да</td><td>Да</td><td>Нет</td><td>Да</td><td>Нет</td></tr>
-  <tr><td>Согласование</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td><td>Если назначен</td></tr>
-  <tr><td>Комментарии</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
+<tr><th>Действие</th><th>Супер Админ</th><th>Рук. мен.</th><th>Менеджер</th><th>Бухгалтер</th><th>Все остальные</th></tr>
+<tr><td>Просмотр</td><td>Все</td><td>Все</td><td>Все</td><td>Все</td><td>Да</td></tr>
+<tr><td>Создание</td><td>Да</td><td>Да</td><td>Да</td><td>Нет</td><td>Да</td></tr>
+<tr><td>Редактирование</td><td>Да</td><td>Да</td><td>Да</td><td>Нет</td><td>Свои</td></tr>
+<tr><td>Удаление</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td><td>Нет</td></tr>
+<tr><td>Оплата/Отклонение</td><td>Да</td><td>Да</td><td>Нет</td><td>Да</td><td>Нет</td></tr>
+<tr><td>Согласование</td><td>Да</td><td>Да</td><td>Нет</td><td>Нет</td><td>Если назначен</td></tr>
+<tr><td>Комментарии</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td><td>Да</td></tr>
 </table>
 <p><strong>Telegram-уведомления:</strong> бухгалтер (при создании и согласовании), согласующие (при назначении), создатель (при комментариях).</p>
 
 <h3>5.9. Статистика</h3>
+
 <table>
-  <tr><th>Страница</th><th>Данные</th><th>Все строки видят</th><th>Только свою строку</th></tr>
-  <tr><td>Разработчиков</td><td>Часы, проекты, бонусы</td><td>Супер Админ, Тимлид</td><td>Разработчик</td></tr>
-  <tr><td>Маркетологов</td><td>Часы, проекты, бонусы</td><td>Супер Админ, Дир. марк.</td><td>Маркетолог</td></tr>
-  <tr><td>Тестировщиков</td><td>Часы, проекты</td><td>Супер Админ, Тимлид</td><td>Тестировщик</td></tr>
-  <tr><td>Дизайнеров</td><td>Часы, проекты</td><td>Супер Админ, Дир. марк.</td><td>Дизайнер</td></tr>
-  <tr><td>Менеджеров</td><td>Проекты, валовая, комментарии</td><td>Супер Админ, Рук. мен.</td><td>Менеджер</td></tr>
+<tr><th>Страница</th><th>Данные</th><th>Все строки видят</th><th>Только свою строку</th></tr>
+<tr><td>Разработчиков</td><td>Часы, проекты, бонусы</td><td>Супер Админ, Тимлид</td><td>Разработчик</td></tr>
+<tr><td>Маркетологов</td><td>Часы, проекты, бонусы</td><td>Супер Админ, Дир. марк.</td><td>Маркетолог</td></tr>
+<tr><td>Тестировщиков</td><td>Часы, проекты</td><td>Супер Админ, Тимлид</td><td>Тестировщик</td></tr>
+<tr><td>Дизайнеров</td><td>Часы, проекты</td><td>Супер Админ, Дир. марк.</td><td>Дизайнер</td></tr>
+<tr><td>Менеджеров</td><td>Проекты, валовая, комментарии</td><td>Супер Админ, Рук. мен.</td><td>Менеджер</td></tr>
 </table>
 <p>Возможности: выбор периода, экспорт в Excel, служебные записки (Word).</p>
 
 <h3>5.10. Отчёты</h3>
+
 <table>
-  <tr><th>Отчёт</th><th>Что показывает</th><th>Кто имеет доступ</th></tr>
-  <tr><td>По сотрудникам</td><td>Трудозатраты за период</td><td>Супер Админ, Рук. менеджеров, Менеджер, Бухгалтер</td></tr>
-  <tr><td>По проектам</td><td>Трудозатраты по клиентам/проектам</td><td>Супер Админ, Рук. менеджеров, Менеджер, Дир. марк.*, Тимлид*, Бухгалтер</td></tr>
-  <tr><td>По лидам</td><td>Аналитика воронки</td><td>Супер Админ, Рук. менеджеров, Менеджер, Рук. КЦ</td></tr>
-  <tr><td>Статусы проектов</td><td>Текущий статус с графиками</td><td>Супер Админ, Рук. менеджеров, Менеджер</td></tr>
+<tr><th>Отчёт</th><th>Что показывает</th><th>Кто имеет доступ</th></tr>
+<tr><td>По сотрудникам</td><td>Трудозатраты за период</td><td>Супер Админ, Рук. менеджеров, Менеджер</td></tr>
+<tr><td>По проектам</td><td>Трудозатраты по клиентам/проектам</td><td>Супер Админ, Рук. менеджеров, Менеджер, Дир. марк.*, Тимлид*</td></tr>
+<tr><td>По лидам</td><td>Аналитика воронки</td><td>Супер Админ, Рук. менеджеров, Менеджер, Рук. КЦ</td></tr>
+<tr><td>Статусы проектов</td><td>Текущий статус с графиками</td><td>Супер Админ, Рук. менеджеров, Менеджер</td></tr>
 </table>
 <p>*Дир. маркетинга и Тимлид видят отчёт по проектам в части исполнителей своего отдела.</p>
 
 <h3>5.11. Планирование</h3>
 <p>Календарь проектов, назначение сотрудников, загруженность.</p>
+
 <table>
-  <tr><th>Роль</th><th>Кого видит</th></tr>
-  <tr><td>Супер Админ</td><td>Всех</td></tr>
-  <tr><td>Рук. менеджеров, Менеджер</td><td>Всех</td></tr>
-  <tr><td>Тимлид</td><td>Разработчиков и тестировщиков</td></tr>
-  <tr><td>Разработчик</td><td>Только себя</td></tr>
+<tr><th>Роль</th><th>Кого видит</th></tr>
+<tr><td>Супер Админ</td><td>Всех</td></tr>
+<tr><td>Рук. менеджеров, Менеджер</td><td>Всех</td></tr>
+<tr><td>Тимлид</td><td>Разработчиков и тестировщиков</td></tr>
+<tr><td>Разработчик</td><td>Только себя</td></tr>
 </table>
 
 <h3>5.12. Автотесты и хостинги</h3>
@@ -517,218 +543,84 @@
 <p>Сотрудники, роли, права, <strong>отделы</strong> (новое).</p>
 <p><strong>Доступ:</strong> только Супер Админ.</p>
 
-<!-- ============================================================ -->
+<!-- ============ 6. План реализации ============ -->
+
 <h2 id="s6">6. План реализации</h2>
 
 <h3>Фаза 1 — Подготовка базы данных (1-2 дня)</h3>
-<ul style="margin: 8px 0 8px 25px;">
-  <li>Создаётся таблица «Отделы»</li>
-  <li>К сотрудникам добавляется привязка к отделу</li>
-  <li>Создаются новые роли</li>
-  <li>Пользователи автоматически переносятся на новые роли</li>
+<ul class="plain">
+<li>Создаётся таблица «Отделы»</li>
+<li>К сотрудникам добавляется привязка к отделу</li>
+<li>Создаются новые роли, удаляются устаревшие</li>
+<li>Пользователи автоматически переносятся на новые роли</li>
 </ul>
 <p>Для пользователей ничего не меняется — система работает как раньше.</p>
 
 <h3>Фаза 2 — Обновление логики (3-5 дней)</h3>
-<ul style="margin: 8px 0 8px 25px;">
-  <li>Обновляются проверки прав</li>
-  <li>Добавляется фильтрация данных по отделам</li>
-  <li>Руководители начинают видеть данные отдела</li>
-  <li>Исправляются ошибки текущей системы</li>
+<ul class="plain">
+<li>Обновляются проверки прав</li>
+<li>Добавляется фильтрация данных по отделам</li>
+<li>Руководители начинают видеть данные отдела</li>
+<li>Исправляются ошибки текущей системы</li>
 </ul>
 
 <h3>Фаза 3 — Обновление интерфейса (2-3 дня)</h3>
-<ul style="margin: 8px 0 8px 25px;">
-  <li>Обновляется боковое меню</li>
-  <li>В форме сотрудника — выбор отдела</li>
-  <li>Новая страница управления отделами</li>
-  <li>Куратор — галочка вместо роли</li>
+<ul class="plain">
+<li>Обновляется боковое меню</li>
+<li>В форме сотрудника — выбор отдела</li>
+<li>Новая страница управления отделами</li>
+<li>Куратор — галочка вместо роли</li>
 </ul>
 
 <h3>Фаза 4 — Тестирование (2-3 дня)</h3>
-<ul style="margin: 8px 0 8px 25px;">
-  <li>Проверка каждой роли</li>
-  <li>Telegram-уведомления</li>
-  <li>Экспорт и отчёты</li>
+<ul class="plain">
+<li>Проверка каждой роли</li>
+<li>Telegram-уведомления</li>
+<li>Экспорт и отчёты</li>
 </ul>
 
 <p><strong>Итого: ~2-3 недели.</strong> Все изменения обратимы, данные не удаляются.</p>
 
-<!-- ============================================================ -->
-<h2 id="appendix">Приложение: Сводная таблица доступа</h2>
+<!-- ============ 7. Приложение ============ -->
 
-<div class="legend" style="margin-bottom: 12px; font-size: 10px;">
-  <strong>Обозначения:</strong>
-  <span style="background:#27ae60;color:#fff;padding:1px 5px;border-radius:2px;">Полный</span> = все действия &nbsp;
-  <span style="background:#82e0aa;color:#333;padding:1px 5px;border-radius:2px;">Да</span> = доступ есть &nbsp;
-  <span style="background:#3498db;color:#fff;padding:1px 5px;border-radius:2px;">Отдел</span> = данные своего отдела &nbsp;
-  <span style="background:#f1c40f;color:#333;padding:1px 5px;border-radius:2px;">Своё</span> = свои данные &nbsp;
-  <span style="background:#9b59b6;color:#fff;padding:1px 5px;border-radius:2px;">Оплата</span> = просмотр + отметка оплачено &nbsp;
-  <span style="background:#76d7c4;color:#333;padding:1px 5px;border-radius:2px;">Просмотр</span> = только просмотр &nbsp;
-  <span style="background:#e67e22;color:#fff;padding:1px 5px;border-radius:2px;">Мин.</span> = минимальный &nbsp;
-  <span style="background:#d5d8dc;color:#777;padding:1px 5px;border-radius:2px;">—</span> = нет доступа
-</div>
+<h2 id="s7">Приложение: Сводная таблица доступа</h2>
 
-<div style="overflow-x: auto;">
-<table class="summary-table">
-  <tr>
-    <th>Модуль</th>
-    <th>Супер Админ</th>
-    <th>Рук.мен.</th>
-    <th>Менеджер</th>
-    <th>Дир.марк.</th>
-    <th>Тимлид</th>
-    <th>Маркетолог</th>
-    <th>Разработчик</th>
-    <th>Тестировщик</th>
-    <th>Дизайнер</th>
-    <th>Рук.КЦ</th>
-    <th>Продажник</th>
-    <th>Бухгалтер</th>
-    <th>Офис-мен.</th>
-    <th>Общ.дост.</th>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Дашборд</td>
-    <td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-full">Полный</td>
-    <td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td>
-    <td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td>
-    <td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-min">Мин.</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Лиды</td>
-    <td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-full">Полный</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-full">Полный</td><td class="c-full">Полный</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Клиенты</td>
-    <td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-full">Полный</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-view">Просмотр</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Контакты</td>
-    <td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-full">Полный</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-full">Полный</td><td class="c-full">Полный</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Проекты</td>
-    <td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-full">Полный</td>
-    <td class="c-dept">Отдел</td><td class="c-dept">Отдел</td><td class="c-own">Своё</td><td class="c-own">Своё</td>
-    <td class="c-own">Своё</td><td class="c-own">Своё</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-view">Просмотр</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Задачи</td>
-    <td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-full">Полный</td>
-    <td class="c-dept">Отдел</td><td class="c-dept">Отдел</td><td class="c-own">Своё</td><td class="c-own">Своё</td>
-    <td class="c-own">Своё</td><td class="c-own">Своё</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Трудозатраты</td>
-    <td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-full">Полный</td>
-    <td class="c-dept">Отдел</td><td class="c-dept">Отдел</td><td class="c-own">Своё</td><td class="c-own">Своё</td>
-    <td class="c-own">Своё</td><td class="c-own">Своё</td><td class="c-dept">Отдел</td><td class="c-own">Своё</td>
-    <td class="c-own">Своё</td><td class="c-own">Своё</td><td class="c-own">Своё</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Оплаты</td>
-    <td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-full">Полный</td>
-    <td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td>
-    <td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td>
-    <td class="c-pay">Оплата</td><td class="c-yes">Да</td><td class="c-no">&mdash;</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Стат.разр.</td>
-    <td class="c-yes">Да</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-dept">Отдел</td><td class="c-no">&mdash;</td><td class="c-own">Своё</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Стат.марк.</td>
-    <td class="c-yes">Да</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-dept">Отдел</td><td class="c-no">&mdash;</td><td class="c-own">Своё</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Стат.тест.</td>
-    <td class="c-yes">Да</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-dept">Отдел</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-own">Своё</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Стат.диз.</td>
-    <td class="c-yes">Да</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-dept">Отдел</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-own">Своё</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Стат.мен.</td>
-    <td class="c-yes">Да</td><td class="c-dept">Отдел</td><td class="c-own">Своё</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Отч.сотруд.</td>
-    <td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-yes">Да</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Отч.проект.</td>
-    <td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td>
-    <td class="c-dept">Отдел</td><td class="c-dept">Отдел</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-yes">Да</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Отч.лидов</td>
-    <td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-yes">Да</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Отч.статус.</td>
-    <td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Планир.</td>
-    <td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td>
-    <td class="c-no">&mdash;</td><td class="c-dept">Отдел</td><td class="c-no">&mdash;</td><td class="c-own">Своё</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Автотесты</td>
-    <td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td>
-    <td class="c-no">&mdash;</td><td class="c-yes">Да</td><td class="c-no">&mdash;</td><td class="c-yes">Да</td>
-    <td class="c-yes">Да</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-  </tr>
-  <tr>
-    <td style="text-align:left;font-weight:bold;">Управление</td>
-    <td class="c-yes">Да</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-    <td class="c-no">&mdash;</td><td class="c-no">&mdash;</td><td class="c-no">&mdash;</td>
-  </tr>
+<div class="appendix">
+<table>
+<tr>
+<th>Модуль</th><th>Супер Админ</th><th>Рук.мен.</th><th>Менеджер</th><th>Дир.марк.</th><th>Тимлид</th><th>Маркетолог</th><th>Разработчик</th><th>Тестировщик</th><th>Дизайнер</th><th>Рук.КЦ</th><th>Продажник</th><th>Бухгалтер</th><th>Офис-мен.</th><th>Общ.дост.</th>
+</tr>
+<tr><td>Дашборд</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-min">Мин.</td></tr>
+<tr><td>Лиды</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td></tr>
+<tr><td>Клиенты</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td></tr>
+<tr><td>Контакты</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td></tr>
+<tr><td>Проекты</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-dept">Отдел</td><td class="c-dept">Отдел</td><td class="c-own">Своё</td><td class="c-own">Своё</td><td class="c-own">Своё</td><td class="c-own">Своё</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td></tr>
+<tr><td>Задачи</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-dept">Отдел</td><td class="c-dept">Отдел</td><td class="c-own">Своё</td><td class="c-own">Своё</td><td class="c-own">Своё</td><td class="c-own">Своё</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td></tr>
+<tr><td>Трудозатраты</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-dept">Отдел</td><td class="c-dept">Отдел</td><td class="c-own">Своё</td><td class="c-own">Своё</td><td class="c-own">Своё</td><td class="c-own">Своё</td><td class="c-dept">Отдел</td><td class="c-own">Своё</td><td class="c-own">Своё</td><td class="c-own">Своё</td><td class="c-own">Своё</td></tr>
+<tr><td>Оплаты</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-full">Полный</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-pay">Оплата</td><td class="c-yes">Да</td><td class="c-no">—</td></tr>
+<tr><td>Стат.разр.</td><td class="c-yes">Да</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-dept">Отдел</td><td class="c-no">—</td><td class="c-own">Своё</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td></tr>
+<tr><td>Стат.марк.</td><td class="c-yes">Да</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-dept">Отдел</td><td class="c-no">—</td><td class="c-own">Своё</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td></tr>
+<tr><td>Стат.тест.</td><td class="c-yes">Да</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-dept">Отдел</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-own">Своё</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td></tr>
+<tr><td>Стат.диз.</td><td class="c-yes">Да</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-dept">Отдел</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-own">Своё</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td></tr>
+<tr><td>Стат.мен.</td><td class="c-yes">Да</td><td class="c-dept">Отдел</td><td class="c-own">Своё</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td></tr>
+<tr><td>Отч.сотруд.</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td></tr>
+<tr><td>Отч.проект.</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-dept">Отдел</td><td class="c-dept">Отдел</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td></tr>
+<tr><td>Отч.лидов</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-yes">Да</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td></tr>
+<tr><td>Отч.статус.</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td></tr>
+<tr><td>Планир.</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-no">—</td><td class="c-dept">Отдел</td><td class="c-no">—</td><td class="c-own">Своё</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td></tr>
+<tr><td>Автотесты</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-no">—</td><td class="c-yes">Да</td><td class="c-no">—</td><td class="c-yes">Да</td><td class="c-yes">Да</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td></tr>
+<tr><td>Управление</td><td class="c-yes">Да</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td><td class="c-no">—</td></tr>
 </table>
+
+<p style="font-size:10px; margin-top:6px;"><strong>Обозначения:</strong>
+<span style="background:#27ae60;color:#fff;padding:1px 5px;border-radius:2px;">Полный</span> = все действия |
+<span style="background:#a8e6a8;color:#1a5c1a;padding:1px 5px;border-radius:2px;">Да</span> = доступ есть |
+<span style="background:#3498db;color:#fff;padding:1px 5px;border-radius:2px;">Отдел</span> = данные своего отдела |
+<span style="background:#f1c40f;color:#333;padding:1px 5px;border-radius:2px;">Своё</span> = свои данные |
+<span style="background:#9b59b6;color:#fff;padding:1px 5px;border-radius:2px;">Оплата</span> = просмотр + отметка оплачено |
+<span style="background:#e67e22;color:#fff;padding:1px 5px;border-radius:2px;">Мин.</span> = минимальный |
+<span style="background:#ecf0f1;color:#aaa;padding:1px 5px;border-radius:2px;">—</span> = нет доступа
+</p>
 </div>
 
 </body>
